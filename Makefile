@@ -1,6 +1,6 @@
 
-SERVER_OBJECTS = utilities.o uksu_server.o 
-CLIENT_OBJECTS = utilities.o uksu_client.o
+SERVER_OBJECTS = utilities.o uksu_server.o socket_helper.o
+CLIENT_OBJECTS = utilities.o uksu_client.o socket_helper.o
 
 all: clean server client
 	
@@ -15,11 +15,14 @@ client: $(CLIENT_OBJECTS)
 utilities.o: utilities.h utilities.c
 	cc -c utilities.c
 
-server.o: uksu_server.c utilities.h
+server.o: uksu_server.c utilities.h socket_helper.h
 	cc -c uksu_server.c
 
-client.o: uksu_client.c utilities.h
+client.o: uksu_client.c utilities.h socket_helper.h
 	cc -c uksu_client.c
+
+socket_helper.o: socket_helper.c socket_helper.h
+	cc -c socket_helper.c
 
 clean: 
 	$(info ************  Cleaning project ************)

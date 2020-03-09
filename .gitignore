@@ -1,5 +1,5 @@
 *.o
-server
-client
+UKSU_server
+UKSU_client
 a.out
 .vscode/
