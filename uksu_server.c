@@ -9,10 +9,11 @@
 
 int main(int argc, char **argv) {
 
-    struct info data;
-    if(!get_args(argc, argv, &data, 's'))
+    struct info args;
+    args.type = 's';
+    if(!get_args(argc, argv, &args))
         return -1;
 
-    printf("\nServer initialized with \n\tusername: %s \n\tpassword: %s \n\tport: %d \n", data.username, data.password, data.port);
+    printf("\nServer initialized with \n\tusername: %s \n\tpassword: %s \n\tport: %d \n", args.username, args.password, args.port);
     return 0;
 }

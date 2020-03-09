@@ -6,11 +6,11 @@ all: clean server client
 	
 server: $(SERVER_OBJECTS)
 	$(info ************  Building server ************)
-	cc $(SERVER_OBJECTS) -o server
+	cc $(SERVER_OBJECTS) -o UKSU_server
 
 client: $(CLIENT_OBJECTS)
 	$(info ************  Building client ************)
-	cc $(CLIENT_OBJECTS) -o client
+	cc $(CLIENT_OBJECTS) -o UKSU_client
 
 utilities.o: utilities.h utilities.c
 	cc -c utilities.c
@@ -24,5 +24,5 @@ client.o: uksu_client.c utilities.h
 clean: 
 	$(info ************  Cleaning project ************)
 	-rm *.o 
-	-rm server
-	-rm client
+	-rm UKSU_server
+	-rm UKSU_client
