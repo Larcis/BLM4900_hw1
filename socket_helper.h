@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <netdb.h>
-
+#define BUFFER_SIZE 1024
 /**
  * when error happens, use this func. Prints out with printf then exits with code -1
  * param out: info message.
@@ -49,4 +49,6 @@ void listen_wrapper(int sockfd, int backlog);
 */
 struct hostent* gethostbyname_wrapper(char * hostname);
 
+void recv_easy(int sockfd, char * buffer);
+void send_easy(int sockfd, char *message, int size);
 #endif

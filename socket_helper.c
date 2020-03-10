@@ -41,3 +41,19 @@ struct hostent* gethostbyname_wrapper(char * hostname){
     
     return he;
 }
+
+void recv_easy(int sockfd, char* buffer){
+    int numbytes;
+    if((numbytes = recv(sockfd, buffer, BUFFER_SIZE-1, 0)) == -1){
+        onerror("recieve");
+    }
+    buffer[numbytes] = '\0';
+    //printf("\nrecieved: %d \n", numbytes);
+}
+void send_easy(int sockfd, char *message, int size){
+    int numbytes;
+    if( (numbytes = send(sockfd, message, size, 0)) == -1){
+        onerror("send");
+    }
+    //printf("\nsent: %d original_size: %d\n", numbytes, size);
+}

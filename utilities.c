@@ -3,7 +3,26 @@
 extern char *optarg;
 extern int optind, opterr, optopt;
 
-int get_args(int argc, char **argv, struct info *data) {
+char *get_buffer(int size){
+    char * buffer = (char*)calloc(sizeof(char), size);
+    if(buffer == NULL){
+        printf("memory allocation error!");
+        exit(-1);
+    }
+    return buffer;
+}
+
+void clear_buffer(char* buffer){
+    if(buffer != NULL)
+        free(buffer);
+}
+
+void graceful_shutdown(int sockfd, char* buffer){
+    close(sockfd);
+    clear_buffer(buffer);
+}
+
+void get_args(int argc, char **argv, struct info *data) {
     int c;
     opterr = 0;
     short is_port_set, is_password_set, is_username_set, is_hostname_set;
@@ -40,8 +59,6 @@ int get_args(int argc, char **argv, struct info *data) {
 
     if (!is_username_set || !is_password_set ||  !is_port_set || !is_hostname_set) {
         printf("%s", usage);
-        return 0;
+        exit(-1);
     }
-    return 1;
-    
 }

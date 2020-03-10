@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 struct info {
     char *username;
     char *password;
@@ -20,6 +21,10 @@ struct info {
  * param data : struct info pointer to fill in
  * param type = 's' : for server, 'c': for client
 */
-int get_args(int argc, char **argv, struct info *data);
+void get_args(int argc, char **argv, struct info *data);
+
+char * get_buffer(int size);
+void clear_buffer(char* buffer);
+void graceful_shutdown(int sockfd, char* buffer);
 
 #endif
