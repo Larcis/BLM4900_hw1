@@ -9,8 +9,10 @@
 
 int sockfd;
 char *buffer;
+
 void sigint_handler(int id){
-    printf("sigint signal recieved....");
+    printf("sigint signal recieved....\n");
+    send_easy(sockfd, "exit", 4);
     graceful_shutdown(sockfd, buffer);
     exit(0);
 }
@@ -64,21 +66,36 @@ int main(int argc, char **argv){
     }
 
     if(client_auth_logic(args.username, args.password)){
-        while(1){
+        short client_exit = 0;
+        while(!client_exit){
             printf("(%s)>> ", args.username);
-            scanf("%s", buffer);
-            if(strcmp(buffer, "clear")){
-                send_easy(sockfd, buffer, strlen(buffer));
-                recv_easy(sockfd, buffer);
-                printf("(%s)>> %s\n", args.username, buffer);
+            //scanf("%s", buffer);
+            //scanf("%1023[^\n]", buffer);
+            my_get_line(buffer);
+            if(strlen(buffer) == 0 ) continue;
+            if(!strcmp(buffer, "clear")){
+                int res = system("clear");
+                (void)res;
+            } else if(!strcmp(buffer, "exit")) {
+                send_easy(sockfd, "exit", 4);
+                client_exit = 1;
             } else {
-                system("clear");
+                send_easy(sockfd, buffer, strlen(buffer));
+                short finished = 0;
+                do{
+                    recv_easy(sockfd, buffer);
+                    if(strcmp(buffer, "finished")){
+                        //replace_chars(buffer, ' ', '\n');
+                        printf("%s", buffer);
+                    } else {   
+                        finished = 1;
+                    }
+                }while(!finished);
             }
         }
     } else {
         printf("unsuccessful login attempt.\n");
     }
-
     graceful_shutdown(sockfd, buffer);
     return 0;
 }

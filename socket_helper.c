@@ -57,3 +57,10 @@ void send_easy(int sockfd, char *message, int size){
     }
     //printf("\nsent: %d original_size: %d\n", numbytes, size);
 }
+void send_easy_with_pipe(int sockfd, char *message, int size){
+    int numbytes;
+    if( (numbytes = send(sockfd, message, size, 0)) == -1){
+        //onerror("send");
+    }
+    //printf("\nsent: %d original_size: %d\n", numbytes, size);
+}

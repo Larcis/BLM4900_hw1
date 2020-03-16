@@ -27,4 +27,6 @@ char * get_buffer(int size);
 void clear_buffer(char* buffer);
 void graceful_shutdown(int sockfd, char* buffer);
 
+void my_get_line(char * buff);
+void replace_chars(char* buff, char rep, char with);
 #endif

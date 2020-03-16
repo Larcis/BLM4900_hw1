@@ -62,3 +62,24 @@ void get_args(int argc, char **argv, struct info *data) {
         exit(-1);
     }
 }
+
+void my_get_line(char * buff){
+    int c;
+    short idx = 0;
+    do{
+        c = getchar();
+        buff[idx++] = c;
+    }while((char)c != '\n' && (char)c != '\0' && idx < 1024);
+    buff[idx-1] = '\0';
+}
+
+void replace_chars(char* buff, char rep, char with){
+    int len = strlen(buff);
+    if(len > 0){
+        char cur;
+        while(--len){
+            cur = buff[len];
+            buff[len] = cur == rep ? with : cur;
+        }
+    }
+}

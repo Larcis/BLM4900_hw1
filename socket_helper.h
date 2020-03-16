@@ -51,4 +51,5 @@ struct hostent* gethostbyname_wrapper(char * hostname);
 
 void recv_easy(int sockfd, char * buffer);
 void send_easy(int sockfd, char *message, int size);
+void send_easy_with_pipe(int sockfd, char *message, int size);
 #endif
