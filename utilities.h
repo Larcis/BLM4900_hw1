@@ -23,10 +23,28 @@ struct info {
 */
 void get_args(int argc, char **argv, struct info *data);
 
+/**
+ * returns a char array pointer with specified size
+ */
 char * get_buffer(int size);
+
+/**
+ * frees the given pointer
+*/
 void clear_buffer(char* buffer);
+/**
+ * closes socket and frees the buffer
+*/
 void graceful_shutdown(int sockfd, char* buffer);
 
+/**
+ * customized input method that uses getchar and
+ * gets input until new line character(enter key)
+*/
 void my_get_line(char * buff);
+
+/**
+ * replaces the specified chars with a new one in a string.
+*/
 void replace_chars(char* buff, char rep, char with);
 #endif

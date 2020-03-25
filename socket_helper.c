@@ -16,6 +16,9 @@ int create_tcp_socket(){
 
 struct sockaddr_in* create_sock_address(in_addr_t hostname, int port){
     struct sockaddr_in * address = (struct sockaddr_in*)malloc(sizeof(struct sockaddr_in));
+    if(!address){
+        onerror("malloc while create_sock_address\n");
+    }
     address->sin_family = AF_INET;
     address->sin_port = htons(port);
     address->sin_addr.s_addr = hostname;

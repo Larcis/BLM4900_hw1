@@ -87,9 +87,7 @@ int main(int argc, char **argv) {
                         } else {
                             sigpipe_received = 0;
                             while (!sigpipe_received && fgets(buffer, BUFFER_SIZE, fp) != NULL){
-                                //replace_chars(buffer, '\n', ' ');
                                 send_easy_with_pipe(new_fd, buffer, strlen(buffer));
-                                //printf("yolluyorum yakala...\n");
                             }
                             status = pclose(fp);
                             if (status == -1) {
@@ -107,6 +105,5 @@ int main(int argc, char **argv) {
 
         }
     }
-    printf("gidiyorum bütün aşklar yüreğimde...");
     return 0;
 }
