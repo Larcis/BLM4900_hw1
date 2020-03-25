@@ -2,13 +2,13 @@
 SERVER_OBJECTS = utilities.o uksu_server.o socket_helper.o
 CLIENT_OBJECTS = utilities.o uksu_client.o socket_helper.o
 CC=gcc
-CFLAGS = -O2 -Wall -pedantic
+CFLAGS = -O2 -Wall -pedantic 
 
 all: clean server client
 	
 server: $(SERVER_OBJECTS)
 	$(info ************  Building server ************)
-	$(CC) $(CFLAGS) $(SERVER_OBJECTS) -o UKSU_server
+	$(CC) $(CFLAGS) $(SERVER_OBJECTS) -o UKSU_server -lpthread
 
 client: $(CLIENT_OBJECTS)
 	$(info ************  Building client ************)

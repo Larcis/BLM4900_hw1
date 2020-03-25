@@ -9,12 +9,21 @@
 
 int sockfd;
 char *buffer;
+int can_cancel;
 
 void sigint_handler(int id){
     printf("sigint signal recieved....\n");
-    send_easy(sockfd, "exit", 4);
-    graceful_shutdown(sockfd, buffer);
-    exit(0);
+    if(can_cancel){
+        send_easy(sockfd, "cancel", 6);
+        can_cancel = 0;
+        int res = system("clear");
+        (void)res;
+        printf("you cancelled command.\n");
+    } else {
+        send_easy(sockfd, "exit", 4);
+        graceful_shutdown(sockfd, buffer);
+        exit(0);
+    }
 }
 
 int client_auth_logic(char * username, char * password){
@@ -64,13 +73,13 @@ int main(int argc, char **argv){
     if(connect(sockfd, (struct sockaddr*)&their_addr, sizeof(struct sockaddr)) == -1){
         onerror("connect");
     }
-
-    if(client_auth_logic(args.username, args.password)){
+    recv_easy(sockfd, buffer);
+    if(strcmp(buffer, "okay")){
+        printf("%s", buffer);
+    } else if(client_auth_logic(args.username, args.password)){
         short client_exit = 0;
         while(!client_exit){
             printf("(%s)>> ", args.username);
-            //scanf("%s", buffer);
-            //scanf("%1023[^\n]", buffer);
             my_get_line(buffer);
             if(strlen(buffer) == 0 ) continue;
             if(!strcmp(buffer, "clear")){
@@ -82,15 +91,18 @@ int main(int argc, char **argv){
             } else {
                 send_easy(sockfd, buffer, strlen(buffer));
                 short finished = 0;
+                can_cancel = 1;
                 do{
                     recv_easy(sockfd, buffer);
                     if(strcmp(buffer, "finished")){
-                        //replace_chars(buffer, ' ', '\n');
                         printf("%s", buffer);
                     } else {   
                         finished = 1;
                     }
-                }while(!finished);
+                }while(!finished && can_cancel);
+                if(can_cancel){
+                    can_cancel = 0;
+                }
             }
         }
     } else {
