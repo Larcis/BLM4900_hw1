@@ -179,9 +179,9 @@ int main(int argc, char **argv) {
                         //if client cancelled the command then its not 
                         //waiting any response from server so we should
                         //not send finish flag
-                        if(!client_cancelled){
+                        //if(!client_cancelled){
                             send_easy(new_fd, "finished", 8);
-                        }
+                        //}
                     }
                 }
             } else {

@@ -25,8 +25,6 @@ void sigint_handler(int id){
     if(can_cancel){
         send_easy(sockfd, "cancel", 6);
         can_cancel = 0;
-        int res = system("clear");
-        (void)res;
         printf("you cancelled command.\n");
     } else {
         send_easy(sockfd, "exit", 4);
@@ -135,11 +133,14 @@ int main(int argc, char **argv){
                     }
                 //receive and pring until the server
                 //send "finish" flalg or user cancel the command
-                }while(!finished && can_cancel);
+                }while(!finished);
                 //if command does not cancelled by user and finished
                 //already then take cancellation right back.
                 if(can_cancel){
                     can_cancel = 0;
+                } else {
+                    int res = system("clear");
+                    (void)res;
                 }
             }
         }
